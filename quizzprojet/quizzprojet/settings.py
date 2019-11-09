@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'quizzapp.apps.QuizzappConfig'
+    'quizzapp.apps.QuizzappConfig',
+    'django_admin_generator',
 ]
 
 MIDDLEWARE = [

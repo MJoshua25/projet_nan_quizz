@@ -35,7 +35,7 @@ class Profile(models.Model):
     """Model definition for UserProfile."""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    specialisation = models.ForeignKey('Specialisation', related_name='users', on_delete=models.CASCADE)
+    specialisation = models.ForeignKey('Specialisation', related_name='users', on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         """Meta definition for UserProfile."""
