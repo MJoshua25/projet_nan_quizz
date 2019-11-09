@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from datetime import date
+from datetime import datetime
+import pytz
 
 class Timemodels(models.Model):
     statut = models.BooleanField(default=False)
@@ -69,6 +70,12 @@ class Quizz(Timemodels):
     date_fin = models.DateTimeField()
     duree = models.TimeField()
 
+    @property
+    def is_available(self):
+        now = datetime.now()
+        now = pytz.utc.localize(now)
+        return self.date_debut < now <self.date_fin
+
     class Meta:
         """Meta definition for Quizz."""
 
@@ -122,7 +129,7 @@ class QuizzUser(Timemodels):
 
     # TODO: Define fields here
     quizz = models.ForeignKey('Quizz', related_name='quizzuser', on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="quizzs")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzs")
     note = models.PositiveIntegerField()
 
     class Meta:
