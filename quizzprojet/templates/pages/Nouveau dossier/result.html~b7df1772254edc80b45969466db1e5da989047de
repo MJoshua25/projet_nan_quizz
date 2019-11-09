@@ -1,0 +1,20 @@
+{% extends 'bases/base.html' %}
+
+{% block content %}
+    <main class="page hire-me-page">
+        <section class="portfolio-block hire-me">
+            <div class="container">
+                <div class="heading">
+                    <h2>Résultat</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Nom</h4>
+                            <h6 class="text-muted card-subtitle mb-2">Status :&nbsp;</h6>
+                            <p class="card-text">Score :&nbsp;<br>Pourcentage :&nbsp;<br>Date de composition</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
