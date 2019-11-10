@@ -36,3 +36,10 @@ def quizz(request):
 def result(request):
     data={}
     return render(request, 'pages/result.html',data)
+
+
+def register(request):
+    return render(request, "pages/comptes/register.html")
+
+def connexionuser(request):
+    return render(request, "pages/comptes/login.html")

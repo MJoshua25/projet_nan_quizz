@@ -36,7 +36,12 @@ class Profile(models.Model):
     """Model definition for UserProfile."""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    image = models.ImageField(upload_to="profile", default="omar-sy-by-rachel.jpg")
     specialisation = models.ForeignKey('Specialisation', related_name='users', on_delete=models.CASCADE, blank=True, null=True)
+    statut = models.BooleanField(default=True)
+    date_add =  models.DateTimeField(auto_now_add=True)
+    date_update =  models.DateTimeField(auto_now=True)
+
 
     class Meta:
         """Meta definition for UserProfile."""

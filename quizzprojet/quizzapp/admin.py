@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 # vim: set fileencoding=utf-8 :
 from django.contrib import admin
-
+from django.utils.safestring import mark_safe
 from . import models
 
 
@@ -31,9 +31,11 @@ class SpecialisationAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'specialisation', 'statut', 'date_add', 'date_update', 'view_image')
+    list_filter = ('statut', 'date_add', 'date_update', 'user', 'specialisation')
 
-    list_display = ('id', 'user', 'specialisation')
-    list_filter = ('user', 'specialisation', 'id', 'user', 'specialisation')
+    def view_image(self,obj):
+        return mark_safe('<img src="{img_url}" width="100px", heigth="100px"/>'.format(img_url=obj.image.url))
 
 
 class QuestionInline(admin.TabularInline):

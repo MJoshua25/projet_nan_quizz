@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="/static/assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="/static/assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+
+    <!-- Compte -->
+        <!-- Font Icon -->
+        <link rel="stylesheet" href="/static/compt/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+        <!-- Main css -->
+        <link rel="stylesheet" href="/static/compt/css/style.css">
+
+    <!-- Fin Compte -->
+
 </head>
 
 <body>
@@ -19,6 +29,8 @@
                 id="navbarNav">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="cv.html">Home</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'connexionuser' %}">Login</a></li>
                 </ul>
             </div>
         </div>
@@ -28,7 +40,7 @@
 
     {% endblock content %}
     </div>
-    <footer class="page-footer">
+    <footer class="page-footer m-5">
         <div class="container">
             <div class="links"><a href="#">About me</a><a href="#">Contact me</a><a href="#">Projects</a></div>
             <div class="social-icons"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-instagram-outline"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a></div>
@@ -38,6 +50,7 @@
     <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
     <script src="/static/assets/js/script.min.js"></script>
+    <script src="/static/compt/js/main.js"></script>
 </body>
 
 </html>
