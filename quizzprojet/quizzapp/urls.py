@@ -28,7 +28,12 @@ urlpatterns = [
     path('result/', views.result, name='result'),
     path('register/', views.register, name='register'),
     path('connexionuser/', views.connexionuser, name='connexionuser'),
+    path('registerApi', views.registerApi,),
+    path('loginsApi', views.loginsApi,),
+    path('deconnexion/', views.logout_view, name="deconnexion"),
 ]
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root= settings.STATIC_ROOT)

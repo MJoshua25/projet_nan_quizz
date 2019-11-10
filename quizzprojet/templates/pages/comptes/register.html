@@ -4,36 +4,51 @@
   
 <div class="main">
 
-    <section class="signup">
+    <section class="signup" id="appregis">
         <!-- <img src="images/signup-bg.jpg" alt=""> -->
         <div class="container">
             <div class="signup-content">
-                <form method="POST" id="signup-form" class="signup-form">
+
+                <div v-if='isSuccess' class="alert alert-success col-lg-12" role="alert">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    ${messageRes}
+                </div>
+                <div v-if='error' class="alert alert-danger col-lg-12" role="alert">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    ${messageRes}
+                </div>
+
+                <form method="POST" v-on:submit="onSubmit" id="signup-form" class="signup-form" enctype="multipart/form-data">{% csrf_token %}
                     <h2 class="form-title">Create account</h2>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="first_name" id="firstname" placeholder="Your FirstName"/>
+                        <input type="text" class="form-input" name="first_name" v-model.trim="form.first_name" id="firstname" placeholder="Your FirstName"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="lastname" id="lastname" placeholder="Your LastName"/>
+                        <input type="text" class="form-input" name="last_name" v-model.trim="form.last_name" id="lastname" placeholder="Your LastName"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="Username" id="name" placeholder="Your UserName"/>
+                        <input type="text" class="form-input" name="username" v-model.trim="form.username" id="name" placeholder="Your UserName"/>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-input" name="email" id="email" placeholder="Your Email"/>
+                        <input type="email" class="form-input" name="email" v-model.trim="form.email" id="email" placeholder="Your Email"/>
                     </div>
                     <div class="form-group">
-                        <input type="file" class="" name="file" placeholder="Your Email"/>
+                        <input type="file" class="" name="file" ref="file" v-on:change="handleFileUpload" placeholder="Your Email"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="password" id="password" placeholder="Password"/>
+                        <input type="text" class="form-input" name="password" v-model.trim="form.password" id="password" placeholder="Password"/>
                         <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password"/>
+                        <input type="password" class="form-input" name="password2" v-model.trim="form.password2" placeholder="Repeat your password"/>
+                        <!-- <span toggle="" class="zmdi zmdi-eye field-icon toggle-password"></span> -->
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up"/>
+                        <input type="submit" class="form-submit" value="Sign up"/>
                     </div>
                 </form>
                 <p class="loginhere">
