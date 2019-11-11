@@ -8,6 +8,18 @@
         <!-- <img src="/static/compt/images/signup-bg.jpg" alt=""> -->
         <div class="container">
             <div class="signup-content">
+                    <div v-if='isSuccess' class="alert alert-success col-lg-12" role="alert">
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            ${messageRes}
+                        </div>
+                        <div v-if='error' class="alert alert-danger col-lg-12" role="alert">
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            ${messageRes}
+                        </div>
                 <form method="POST" v-on:submit="onsubmitLogin" id="signup-form" class="signup-form"> {% csrf_token %}
                     <h2 class="form-title">Login</h2>
                     <div class="form-group">
