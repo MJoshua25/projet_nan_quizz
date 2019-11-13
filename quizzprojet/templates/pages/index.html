@@ -15,62 +15,38 @@
                     <div class="heading">
                         <h2 class="text-center">Quizz en attente</h2>
                     </div>
+                    {% for qatt in q %}
                     <div class="item">
                         <div class="row">
                             <div class="col-md-6">
-                                <h3>Titre</h3>
-                                <h4 class="organization">niveau :</h4>
+                                <h3>{{ qatt.titre }}</h3>
+                                <h4 class="organization">niveau :{{ qatt.niveau }} </h4>
                             </div>
-                            <div class="col-md-6"><span class="period">rebourd</span></div>
+                            <div class="col-md-6"><span class="period">{{ qatt.date_debut }}-{{ qatt.date_fin }}</span></div>
                         </div>
-                        <p class="text-muted">Nb: n/qvb soit x%<br></p>
+                        <p class="text-muted">{{ qatt.titre }}<br></p>
                     </div>
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-6">
-                                <h3>Front End Developer</h3>
-                                <h4 class="organization">Innovative Org.</h4>
-                            </div>
-                            <div class="col-md-6"><span class="period">05/2015 - 12/2017</span></div>
-                        </div>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit ultricies, feugiat est sed, efficitur nunc, vivamus vel accumsan dui.</p>
-                    </div>
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h3>Web Developer</h3>
-                                <h4 class="organization">Special Inc.</h4>
-                            </div>
-                            <div class="col-md-6"><span class="period">12/2017 - Present</span></div>
-                        </div>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit ultricies, feugiat est sed, efficitur nunc, vivamus vel accumsan dui.</p>
-                    </div>
-                </div>
+                    {% endfor %}
+                 </div>
+                {% if qt %}
                 <div class="education group">
                     <div class="heading">
                         <h2 class="text-center">Quizz passé</h2>
                     </div>
+                    {% for qpass in qt %}
                     <div class="item">
                         <div class="row">
                             <div class="col-md-6">
-                                <h3>Titre</h3>
-                                <h4 class="organization">résultat</h4>
+                                <h3>{{ qpass.titre }}</h3>
+                                <h4 class="organization">niveu : {{ qpass.niveau }}</h4>
                             </div>
-                            <div class="col-6"><span class="period">date debut -date parti</span></div>
+                            <div class="col-6"><span class="period">{{ qpass.date_debut  }}-{{ qpass.date_fin }}</span></div>
                         </div>
-                        <p class="text-muted">classement :</p>
+                        <p class="text-muted">{{ qpass.titre }}</p>
                     </div>
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h3>Applied Physics</h3>
-                                <h4 class="organization">Stephen Hawking College</h4>
-                            </div>
-                            <div class="col-md-6"><span class="period">09/2010 - 06/2015</span></div>
-                        </div>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit ultricies, feugiat est sed, efficitur nunc, vivamus vel accumsan dui.</p>
-                    </div>
+                    {% endfor %}
                 </div>
+                {% endif %}
             </div>
         </section>
     </main>

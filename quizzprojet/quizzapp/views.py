@@ -24,17 +24,45 @@ def resultat(request):
 def home(request):
     now = datetime.now()
     now = pytz.utc.localize(now)
-    # q = models.Quizz.objects.filter(statut=True).filter(specialisation__nom = request.user.profile.specialisation.nom)
+    q = models.Quizz.objects.filter(statut=True).filter(specialisation = request.user.profile.specialisation)
+    qt = models.Quizz.objects.filter(statut=False).filter(specialisation__nom = request.user.profile.specialisation)
+    b=q.count()
+    print(q.count())
+    print(q,'++++++++++++++++++++++++')
+    print(q[0].titre)
+    print(qt.count())
+    # num = q.count()
+    # i = 0
+    # bb = [a for a in q if i < num ]
+    # print(bb[1], '000000000000000000111111111')
+    # while i < num :
+    #     qq = models.Quizz.objects.filter(statut=True).filter(specialisation__nom = request.user.profile.specialisation)
+    #     i += 1
+    #     qqq = i-1
+    #     print(qqq, '00000000000000000011111122221')
+        #q[1].titre
+    
+    
     # al = [i.quizz.id for i in request.user.quizzs.all()]
+    # print('======',al)
     # att = q.exclude(id__in=al)
+    # print('====',att)
     # q_att = [a for a in att if a.is_available]
+    # print('+++++++++++++',q_att)
     # id_v = [i.id for i in q_att]
+    # print('id_v', id_v)
     # p = q.exclude(id__in=id_v)
     # p = q.filter((Q(date_debut__gte = now)&Q(id__in=al)), Q(date_fin__gte = now))
+    # print('------ p', p)
 
     data={
         # 'q_att': q_att,
-        # 'q_pass': p
+        'q': q,
+        'qt': qt,
+        # 'num': num,
+        # 'b':b,
+        # 'qq': qq,
+        # 'qqq': qqq,
     }
     return render(request, 'pages/index.html',data)
 
