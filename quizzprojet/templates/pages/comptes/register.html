@@ -34,6 +34,14 @@
                         <input type="text" class="form-input" name="username" v-model.trim="form.username" id="name" placeholder="Your UserName"/>
                     </div>
                     <div class="form-group">
+                        <select class="form-control" name="specialite" id="specialite">
+                            <option v-model="specialite"  value="#" style="color: gray">Votre specialité</option>
+                            {% for spec in specialite %}
+                            <option value="{{ spec.nom }}">{{ spec.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <input type="email" class="form-input" name="email" v-model.trim="form.email" id="email" placeholder="Your Email"/>
                     </div>
                     <div class="form-group">

@@ -66,6 +66,7 @@
                 first_name: '',
                 last_name: '',
                 username: '',
+                specialite: '',
                 email: '',
                 password: '',
                 password2: '',
@@ -90,6 +91,7 @@
                 let formData=new FormData()
                 formData.append('file', this.form.file)
                 formData.append('username', this.form.username)
+                formData.append('specialite', this.form.specialite)
                 formData.append('email', this.form.email)
                 formData.append('first_name', this.form.first_name)
                 formData.append('last_name', this.form.last_name)
@@ -135,6 +137,7 @@
                     this.form.first_name = ''
                     this.form.last_name = ''
                     this.form.username = ''
+                    this.form.specialite = ''
                     this.form.email = ''
                     this.form.password = ''
                     this.form.password2 = ''

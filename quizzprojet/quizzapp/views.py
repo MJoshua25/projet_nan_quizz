@@ -26,10 +26,10 @@ def home(request):
     now = pytz.utc.localize(now)
     q = models.Quizz.objects.filter(statut=True).filter(specialisation = request.user.profile.specialisation)
     qt = models.Quizz.objects.filter(statut=False).filter(specialisation__nom = request.user.profile.specialisation)
-    b=q.count()
-    print(q.count())
-    print(q,'++++++++++++++++++++++++')
-    print(q[0].titre)
+    b = q.count()
+    print(b,'2222222')
+    print(q,'++++++++++++++++++++++++11111111')
+    #print(q[0].titre)
     print(qt.count())
     # num = q.count()
     # i = 0
@@ -60,7 +60,7 @@ def home(request):
         'q': q,
         'qt': qt,
         # 'num': num,
-        # 'b':b,
+        'b':b,
         # 'qq': qq,
         # 'qqq': qqq,
     }
@@ -77,7 +77,12 @@ def result(request):
 
 
 def register(request):
-    return render(request, "pages/comptes/register.html")
+    specialite = models.Specialisation.objects.filter(statut=True)
+
+    data = {
+        'specialite': specialite,
+    }
+    return render(request, "pages/comptes/register.html", data)
 
 def connexionuser(request):
     return render(request, "pages/comptes/login.html")

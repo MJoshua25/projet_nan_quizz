@@ -1,15 +1,17 @@
 {% extends 'bases/base.html' %}
 
 {% block content %}
-    <main class="page cv-page">
-        <section class="portfolio-block block-intro border-bottom">
+    <main class="page cv-page" style="margin-top: 50px">
+        <section class="portfolio-block cv">
+            {% if b == 0 %}
             <div class="container">
-                <div class="about-me">
-                    <p>Bienvenue sur la page d'acceuil</p>
+                <div class="work-experience group">
+                    <div class="heading">
+                        <h2 class="text-center">Vous n'avez pas de quiz disponible</h2>
+                    </div>
                 </div>
             </div>
-        </section>
-        <section class="portfolio-block cv">
+            {% else %}
             <div class="container">
                 <div class="work-experience group">
                     <div class="heading">
@@ -48,6 +50,7 @@
                 </div>
                 {% endif %}
             </div>
+            {% endif %}
         </section>
     </main>
 
