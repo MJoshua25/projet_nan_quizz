@@ -1,21 +1,26 @@
 {% extends 'bases/base.html' %}
 
 {% block content %}
-        <section class="container portfolio-block projects-with-sidebar">
+        <section class="container portfolio-block projects-with-sidebar" style="width: 860px">
             <div class="heading">
                 <h2>Fin dans : rebours</h2>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <ul class="list-unstyled sidebar">
-                        <li><a class="active" href="#">All</a></li>
-                        <li><a href="#">Bootstrap</a></li>
-                        <li><a href="#">Clean</a></li>
-                        <li><a href="#">Colors</a></li>
-                        <li><a href="#">Portfolio</a></li>
-                    </ul>
-                    <div class="social-icons"><button class="btn btn-outline-primary" type="button"><i class="fa fa-arrow-left"></i></button><button class="btn btn-outline-primary" type="button"><i class="fa fa-arrow-right"></i></button><button class="btn btn-outline-danger"
-                            type="button">Valider</button></div>
+                <div class="col-md-4" style="margin-top: 70px">
+                    <button type="button" class="btn btn-default btn-circle btn-lg">1</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">2</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">3</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">3</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">4</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">5</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">5</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">5</button>
+                    <button type="button" class="btn btn-default btn-circle btn-lg">5</button>
+                    <div class="social-icons" style="margin-top: 20px">
+                        <button class="btn btn-outline-primary" type="button"><i class="fa fa-arrow-left"></i></button>
+                        <button class="btn btn-outline-primary" type="button" style="    margin-left: 20px; margin-right: 20px;"><i class="fa fa-arrow-right"></i></button>
+                        <button class="btn btn-outline-danger" type="button">Valider</button>
+                    </div>
                 </div>
                 <div class="col-md-8 align-self-start">
                     <h4 class="text-center">Heading</h4>
@@ -49,14 +54,10 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- <div class="col">
-                            <form>
-                                <div class="form-check"><input class="form-check-input" type="radio" id="formCheck-1"><label class="form-check-label" for="formCheck-1"><img class="img-fluid" src="assets/img/nature/image1.jpg"></label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Label</label></div>
-                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Label</label></div>
-                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-4"><label class="form-check-label" for="formCheck-4"><img class="img-fluid" src="assets/img/nature/image3.jpg"></label></div>
-                            </form>
-                        </div> -->
+                        <div class="col-md-12">
+                            <button id="show-hint-button" disabled style="float: left">Suivent</button>
+                            <button id="show-hint-button" disabled style="float: right">Envoyer</button>
+                        </div>
                     </div>
                 </div>
                 <div class="col"></div>
@@ -64,22 +65,24 @@
         </section>
     
     <style>
-        
+            .btn-circle.btn-lg {
+                width: 45px;
+                height: 45px;
+                background-color: #d1d4da;
+                padding: 9px 9px;
+                font-size: 16px;
+                line-height: 1.33;
+                border-radius: 25px;
+            }
           /*----------quiz.css---------------*/
           #show-hint-button{
               background-color: #75ba48;
               color: #fff;
               padding: 6px 15px;
               border: 1px solid #75ba48;
-              outline: none;
               border-top-left-radius: 15px;
               border-bottom-right-radius: 15px;
               margin-top: 20px;
-          }
-          .show-hint p{
-              color: #aaaaaa;
-              font-size: 15px;
-              padding-left: 80px;
           }
           .loanParamsLoader {
               top: 143px;
@@ -175,56 +178,5 @@
           }
           
     </style>
-    <div class="container" style="margin-top: 120px">
-        <div class="row"><br><br>
-            <div class="col-md-12">
-                <div class="loader">
-                    <div class="col-md-8">
-                        <div id="loadbar" style="display: none;">
-                            <img src="http://schoolsearch.co.ke/systems/img/loader.gif_large.gif" alt="Loading" class="center-block loanParamsLoader" style="">
-                        </div>
-                    </div>
-
-                    <div id="quiz">
-                  
-                        <div class="question">
-                            <h3><span class="label label-warning" id="qid">1</span>
-                            <span id="question">Qu'est-ce que le Lorem Ipsum? </span>
-                            </h3>
-                        </div>
-                        <ul>
-                          <li>
-                            <input type="radio" class="inputoption" id="f-option" name="selector" value="1">
-                            <label for="f-option" class="element-animation">Qu'est-ce que le Lorem Ipsum?</label>
-                            <div class="check"></div>
-                          </li>
-                          
-                          <li>
-                            <input type="radio" class="inputoption" id="s-option" name="selector" value="2">
-                            <label for="s-option" class="element-animation">Qu'est-ce que le Lorem Ipsum</label>
-                            <div class="check"><div class="inside"></div></div>
-                          </li>
-                          
-                          <li>
-                            <input type="radio" class="inputoption" id="t-option" name="selector" value="3">
-                            <label for="t-option" class="element-animation"></label>
-                            <div class="check"><div class="inside"></div></div>
-                          </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="hint">
-                    <button id="show-hint-button" disabled>Show Hint</button><br><br>
-                    <span class="hidden show-hint">
-                        <p>Comment for single line //<br>
-                        comment for multi line !--ok--<p>
-                    </span>
-                </div>
-                <div class="text-muted">
-                    <span id="answer"></span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {% endblock content %}
