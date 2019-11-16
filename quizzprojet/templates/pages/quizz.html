@@ -28,19 +28,24 @@
                         <div class="col-md-6 col-lg-4 text-center m-auto project-sidebar-card"><a href="#"><img class="img-fluid image scale-on-hover" src="assets/img/nature/image2.jpg"></a></div>
                     </div>
                     <div class="row">
+                        {% for quz in quiz %}
                         <div id="quiz">
                             <div class="question">
                                 <h3><span class="label label-warning" id="qid">1</span>
-                                <span id="question">Qu'est-ce que le Lorem Ipsum? </span>
+                                <span id="question">{{ quz.titre }}</span>
                                 </h3>
                             </div>
                             <ul>
+                                {% for qes in quz.questions.all %}
+                                {% if forloop.counter != 1 %}
                                 <li>
-                                <input type="radio" class="inputoption" id="f-option" name="selector" value="1">
-                                <label for="f-option" class="element-animation">Qu'est-ce que le Lorem Ipsum?</label>
+                                <input type="radio" class="inputoption" id="f-option{{ forloop.counter }}" name="selector" value="1">
+                                <label for="f-option{{ forloop.counter }}" class="element-animation">{{ qes.contenu|safe }}</label>
                                 <div class="check"></div>
                                 </li>
-                                
+                                {% endif %}
+                                {% endfor %}
+<!--                                 
                                 <li>
                                 <input type="radio" class="inputoption" id="s-option" name="selector" value="2">
                                 <label for="s-option" class="element-animation">Qu'est-ce que le Lorem Ipsum</label>
@@ -51,13 +56,15 @@
                                 <input type="radio" class="inputoption" id="t-option" name="selector" value="3">
                                 <label for="t-option" class="element-animation"></label>
                                 <div class="check"><div class="inside"></div></div>
-                                </li>
-                            </ul>
+                                </li> -->
+                            
+                              </ul>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="margin-bottom: 35px">
                             <button id="show-hint-button" disabled style="float: left">Suivent</button>
                             <button id="show-hint-button" disabled style="float: right">Envoyer</button>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col"></div>
