@@ -164,6 +164,9 @@ class ReponseUserAdmin(admin.ModelAdmin):
         'istrue',
     )
     raw_id_fields = ('reponses',)
+    def save_related(self, request, form, formsets, change):
+        super(ReponseUserAdmin, self).save_related(request, form, formsets, change)
+        form.instance.save()
 
 
 def _register(model, admin_class):

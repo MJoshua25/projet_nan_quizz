@@ -101,6 +101,12 @@ class Question(Timemodels):
     niveau = models.PositiveIntegerField()
     contenu =  HTMLField('question_contenu')
 
+    @property
+    def liste_true(self):
+        aux = [i.id for i in self.reponses.filter(isrtue=True)]
+        aux.sort()
+        return aux
+
     class Meta:
         """Meta definition for Question."""
 
@@ -175,6 +181,12 @@ class ReponseUser(Timemodels):
     reponses = models.ManyToManyField('Reponse')
     istrue = models.BooleanField(default=False)
 
+    @property
+    def liste_true(self):
+        aux = [i.id for i in self.reponses.all()]
+        aux.sort()
+        return aux
+
     class Meta:
         """Meta definition for ReponseUser."""
 
@@ -182,6 +194,7 @@ class ReponseUser(Timemodels):
         verbose_name_plural = 'ReponseUsers'
     
     def save(self, *args, **kwargs):
+        self.istrue = self.liste_true == self.question.liste_true
         super(ReponseUser, self).save(*args, **kwargs)
         self.quizzuser.save()
 
