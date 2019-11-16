@@ -34,10 +34,10 @@
                         <input type="text" class="form-input" name="username" v-model.trim="form.username" id="name" placeholder="Your UserName"/>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" name="specialite" id="specialite">
-                            <option v-model="specialite"  value="#" style="color: gray">Votre specialité</option>
+                        <label style="color: gray">Votre specialité</label>
+                        <select class="form-control" name="specialite" v-model="form.specialite" id="specialite">
                             {% for spec in specialite %}
-                            <option value="{{ spec.nom }}">{{ spec.nom }}</option>
+                            <option value="{{ spec.id }}">{{ spec.nom }}</option>
                             {% endfor %}
                         </select>
                     </div>
