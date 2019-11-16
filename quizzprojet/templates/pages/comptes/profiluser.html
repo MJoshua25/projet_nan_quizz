@@ -205,6 +205,9 @@
 
 </section>
 
+{% endblock content %}
+
+
 {% block vue %}
 <script type="text/javascript">
 
@@ -269,100 +272,3 @@
     myPyelangue.setOption(optcandi);
 </script>
 {% endblock vue %}
-
-
-
-
-
-<!-- <div class="container-fluid mt-5 p-5">
-
-    <h1 class="text-center" >Profil User</h1>
-
-    <div class="row">
-        <div class="col-md-5 col-sm-5">
-            <img src="{{ user.profile.image.url }}" class="img-thumbnail mx-auto d-block" alt="">
-            <hr>
-        </div>
-        <div class="col-md-4">
-            <h1 class="tm-title text-center bold shadow mb-4">{{ user.username }}</h1>
-        </div>
-    </div>
-    <div class="row">
-        
-    </div>
-
-    <div class="row">
-
-        <div class="col-md-4">
-            <div id="langue" style="width:100%; height:400px;"></div>
-        </div>
-
-        <div class="col-md-8">
-            <h3 class="text-center"></h3>
-        </div>
-            
-    </div>
-
-</div>
-
-
-    <script type="text/javascript">
-
-        var myPyelangue = echarts.init(document.getElementById('langue'));
-    
-            var optcandi = {
-                title : {
-                    text: 'Meilleure Notes',
-                    subtext: 'Notes Etudiant',
-                    x:'center'
-                },
-    
-                color: ['#3E98EB'],
-                tooltip : {
-                    trigger: 'axis',
-                    axisPointer : {            
-                        type : 'shadow' 
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : [
-                            'semaine1',
-                            'semaine2',
-                            'semaine',
-                        ],
-                        axisTick: {
-                            alignWithLabel: true
-                        }
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'graphe',
-                        type:'bar',
-                        barWidth: '60%',
-                        data:[
-                            10, 
-                            52, 
-                            200,
-                        ]
-                    }
-                ]
-            };
-    
-        myPyelangue.setOption(optcandi);
-    </script> -->
-
-{% endblock content %}
