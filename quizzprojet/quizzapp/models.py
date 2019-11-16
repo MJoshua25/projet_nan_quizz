@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import datetime
 from tinymce import HTMLField
+from django.core.validators import MaxValueValidator, MinValueValidator
 import pytz
 
 class Timemodels(models.Model):
@@ -71,7 +72,7 @@ class Quizz(Timemodels):
     specialisation = models.ForeignKey('Specialisation', related_name='quizzs', on_delete=models.CASCADE)
     titre = models.CharField(max_length=50)
     niveau = models.PositiveIntegerField()
-    pourcentage = models.PositiveIntegerField(min=0, max=100, verbose_name="pourcentage pour valider")
+    pourcentage = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], verbose_name="pourcentage pour valider")
     date_debut = models.DateTimeField()
     date_fin = models.DateTimeField()
     duree = models.TimeField()
@@ -97,7 +98,7 @@ class Question(Timemodels):
 
     # TODO: Define fields here
     quizz = models.ForeignKey('Quizz', related_name='questions', on_delete=models.CASCADE)
-    titre = models.CharField(max_length=50)
+    niveau = models.PositiveIntegerField()
     contenu =  HTMLField('question_contenu')
 
     class Meta:
@@ -108,7 +109,7 @@ class Question(Timemodels):
 
     def __str__(self):
         """Unicode representation of Question."""
-        return self.titre
+        return self.contenu
 
 class Reponse(Timemodels):
     """Model definition for Reponse."""
@@ -116,7 +117,7 @@ class Reponse(Timemodels):
     # TODO: Define fields here
     question = models.ForeignKey('Question', related_name='reponses', on_delete=models.CASCADE)
     contenu =  HTMLField('reponse_contenu')
-    isrtue = models.BooleanField()
+    isrtue = models.BooleanField(default=False)
 
     class Meta:
         """Meta definition for Reponse."""
@@ -126,7 +127,7 @@ class Reponse(Timemodels):
 
     def __str__(self):
         """Unicode representation of Reponse."""
-        return self.titre
+        return self.contenu
 
 class QuizzUser(Timemodels):
     """Model definition for QuizzUser."""
@@ -134,7 +135,7 @@ class QuizzUser(Timemodels):
     # TODO: Define fields here
     quizz = models.ForeignKey('Quizz', related_name='quizzuser', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzs")
-    note = models.PositiveIntegerField(min=0, max=100)
+    note = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
 
     class Meta:
         """Meta definition for QuizzUser."""
@@ -145,6 +146,7 @@ class QuizzUser(Timemodels):
     def save(self, *args, **kwargs):
         nb = self.questions.all().count()
         if nb == 0:
+            super(QuizzUser, self).save(*args, **kwargs)
             for q in self.quizz.questions.all():
                 r = ReponseUser(
                     question = q,
@@ -161,7 +163,7 @@ class QuizzUser(Timemodels):
 
     def __str__(self):
         """Unicode representation of QuizzUser."""
-        return note
+        return str(self.note)
 
 
 class ReponseUser(Timemodels):
@@ -170,18 +172,22 @@ class ReponseUser(Timemodels):
     # TODO: Define fields here
     question = models.ForeignKey('Question', related_name='reponseuser', on_delete=models.CASCADE)
     quizzuser = models.ForeignKey('QuizzUser', related_name='questions', on_delete=models.CASCADE)
-    reponses = models.ManyToManyField('Reponse', blank=True, null=True)
-    istrue = models.BooleanField()
+    reponses = models.ManyToManyField('Reponse')
+    istrue = models.BooleanField(default=False)
 
     class Meta:
         """Meta definition for ReponseUser."""
 
         verbose_name = 'ReponseUser'
         verbose_name_plural = 'ReponseUsers'
+    
+    def save(self, *args, **kwargs):
+        super(ReponseUser, self).save(*args, **kwargs)
+        self.quizzuser.save()
 
     def __str__(self):
         """Unicode representation of ReponseUser."""
-        return self.istrue
+        return str(self.istrue)
 
 
 

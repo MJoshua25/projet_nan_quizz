@@ -52,7 +52,7 @@ class QuizzAdmin(admin.ModelAdmin):
         'specialisation',
         'titre',
         'niveau',
-        'qpv',
+        'pourcentage',
         'date_debut',
         'date_fin',
         'duree',
@@ -79,9 +79,8 @@ class QuestionAdmin(admin.ModelAdmin):
         'date_add',
         'date_update',
         'quizz',
-        'titre',
+        'contenu',
         'niveau',
-        'image',
     )
     list_filter = (
         'statut',
@@ -99,8 +98,7 @@ class ReponseAdmin(admin.ModelAdmin):
         'date_add',
         'date_update',
         'question',
-        'titre',
-        'image',
+        'contenu',
         'isrtue',
     )
     list_filter = (
