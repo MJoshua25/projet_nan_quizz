@@ -67,7 +67,18 @@ def home(request):
     return render(request, 'pages/index.html',data)
 
 def quizz(request):
-    data={}
+    question = models.Question.objects.filter(statut=True)#.filter(quizz = quizz)
+    quiz = models.Quizz.objects.all()
+    # .filter(quizz = models.Quizz.objects.filter(statut=True))
+    print(question)
+    data={
+        'question': question,
+        'quiz': quiz,
+    }
+    # quiz = models.Quizz.objects.get(pk=id)
+    # data = {
+    #     "quiz": quiz
+    # }
     return render(request, 'pages/quizz.html',data)
 
 @login_required(login_url='connexionuser')
@@ -95,16 +106,18 @@ def registerApi(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
     password2 = request.POST.get('password2')
-    # image = request.FILES['file']
+    specialit = request.POST.get('specialite')
     image = request.FILES.get('file')
     print('vvgsgsgsggs', firstname)
     print('vvgsgsgsggs', username)
     print('vvgsgsgsggs', image)
     is_email=False       
     Min_Length = 8
-    
+    speciale = models.Specialisation.objects.get(pk=specialit)
 
-    if firstname != '' and lastname != '' and username != '' and email != '' and image != '' :
+    print("FFGGGGGGSopecia", speciale)
+
+    if firstname != '' and lastname != '' and username != '' and email != '' and image != '' and specialit != '':
 
         try:
             validate_email(email)
@@ -146,7 +159,12 @@ def registerApi(request):
                     user = User(username = username, first_name = firstname, last_name = lastname, email = email)
                     user.save()
                     user.profile.image = image
+                    user.profile.specialisation = speciale
+                    # print("hggjgcvcc",  user.profile.specialisation)
                     user.save()
+                    
+                    # specia = users.specialisation
+                    # specia.save()
                     user.password = password
                     user.set_password(user.password)
                     user.save()
@@ -203,3 +221,8 @@ def loginsApi(request):
 def logout_view(request):
     logout(request)
     return redirect('connexionuser')
+
+
+def profile(request):
+    context = {}
+    return render(request, 'pages/comptes/profiluser.html')

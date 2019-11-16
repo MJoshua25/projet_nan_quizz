@@ -3,10 +3,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import datetime
+from tinymce import HTMLField
+from django.core.validators import MaxValueValidator, MinValueValidator
 import pytz
 
 class Timemodels(models.Model):
-    statut = models.BooleanField(default=False)
+    statut = models.BooleanField(default=True)
     date_add =  models.DateTimeField(auto_now_add=True)
     date_update =  models.DateTimeField(auto_now=True)
       
@@ -70,7 +72,7 @@ class Quizz(Timemodels):
     specialisation = models.ForeignKey('Specialisation', related_name='quizzs', on_delete=models.CASCADE)
     titre = models.CharField(max_length=50)
     niveau = models.PositiveIntegerField()
-    qpv = models.PositiveIntegerField()
+    pourcentage = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], verbose_name="pourcentage pour valider")
     date_debut = models.DateTimeField()
     date_fin = models.DateTimeField()
     duree = models.TimeField()
@@ -96,9 +98,14 @@ class Question(Timemodels):
 
     # TODO: Define fields here
     quizz = models.ForeignKey('Quizz', related_name='questions', on_delete=models.CASCADE)
-    titre = models.CharField(max_length=50)
     niveau = models.PositiveIntegerField()
-    image = models.ImageField(upload_to="question", blank=True, null=True)
+    contenu =  HTMLField('question_contenu')
+
+    @property
+    def liste_true(self):
+        aux = [i.id for i in self.reponses.filter(isrtue=True)]
+        aux.sort()
+        return aux
 
     class Meta:
         """Meta definition for Question."""
@@ -108,16 +115,15 @@ class Question(Timemodels):
 
     def __str__(self):
         """Unicode representation of Question."""
-        return self.titre
+        return self.contenu
 
 class Reponse(Timemodels):
     """Model definition for Reponse."""
 
     # TODO: Define fields here
     question = models.ForeignKey('Question', related_name='reponses', on_delete=models.CASCADE)
-    titre = models.CharField(max_length=50)
-    image = models.ImageField(upload_to="reponse", blank=True, null=True)
-    isrtue = models.BooleanField()
+    contenu =  HTMLField('reponse_contenu')
+    isrtue = models.BooleanField(default=False)
 
     class Meta:
         """Meta definition for Reponse."""
@@ -127,7 +133,7 @@ class Reponse(Timemodels):
 
     def __str__(self):
         """Unicode representation of Reponse."""
-        return self.titre
+        return self.contenu
 
 class QuizzUser(Timemodels):
     """Model definition for QuizzUser."""
@@ -135,7 +141,7 @@ class QuizzUser(Timemodels):
     # TODO: Define fields here
     quizz = models.ForeignKey('Quizz', related_name='quizzuser', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzs")
-    note = models.PositiveIntegerField()
+    note = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
 
     class Meta:
         """Meta definition for QuizzUser."""
@@ -143,9 +149,27 @@ class QuizzUser(Timemodels):
         verbose_name = 'QuizzUser'
         verbose_name_plural = 'QuizzUsers'
 
+    def save(self, *args, **kwargs):
+        nb = self.questions.all().count()
+        if nb == 0:
+            super(QuizzUser, self).save(*args, **kwargs)
+            for q in self.quizz.questions.all():
+                r = ReponseUser(
+                    question = q,
+                    quizzuser = self
+                )
+                r.save()
+                nb += 1
+        n = 0
+        for q in self.questions.all():
+            if q.istrue:
+                n+=1
+        self.note = round(n/nb, 4)*100
+        super(QuizzUser, self).save(*args, **kwargs)
+
     def __str__(self):
         """Unicode representation of QuizzUser."""
-        return note
+        return str(self.note)
 
 
 class ReponseUser(Timemodels):
@@ -155,18 +179,25 @@ class ReponseUser(Timemodels):
     question = models.ForeignKey('Question', related_name='reponseuser', on_delete=models.CASCADE)
     quizzuser = models.ForeignKey('QuizzUser', related_name='questions', on_delete=models.CASCADE)
     reponses = models.ManyToManyField('Reponse')
-    istrue = models.BooleanField()
+    istrue = models.BooleanField(default=False)
+
+    @property
+    def liste_true(self):
+        aux = [i.id for i in self.reponses.all()]
+        aux.sort()
+        return aux
 
     class Meta:
         """Meta definition for ReponseUser."""
 
         verbose_name = 'ReponseUser'
         verbose_name_plural = 'ReponseUsers'
+    
+    def save(self, *args, **kwargs):
+        self.istrue = self.liste_true == self.question.liste_true
+        super(ReponseUser, self).save(*args, **kwargs)
+        self.quizzuser.save()
 
     def __str__(self):
         """Unicode representation of ReponseUser."""
-        return self.istrue
-
-
-
-
+        return str(self.istrue)

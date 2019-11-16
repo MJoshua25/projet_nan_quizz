@@ -34,10 +34,10 @@
                         <input type="text" class="form-input" name="username" v-model.trim="form.username" id="name" placeholder="Your UserName"/>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" name="specialite" id="specialite">
-                            <option v-model="specialite"  value="#" style="color: gray">Votre specialité</option>
+                        <label style="color: gray">Votre specialité</label>
+                        <select class="form-control" name="specialite" v-model="form.specialite" id="specialite">
                             {% for spec in specialite %}
-                            <option value="{{ spec.nom }}">{{ spec.nom }}</option>
+                            <option value="{{ spec.id }}">{{ spec.nom }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -69,3 +69,150 @@
 </div>
 
 {% endblock content %}
+
+
+{% block vue %}
+<script>
+        new Vue({
+            el: '#appregis',
+            data: {
+                form: {
+                    first_name: '',
+                    last_name: '',
+                    username: '',
+                    specialite: '',
+                    email: '',
+                    password: '',
+                    password2: '',
+                    specialite: '',
+                    file: '',
+                },
+                isSuccess:false,
+                error:false,
+                messageRes:'',
+            },
+            delimiters: ["${", "}"],
+            mounted(){
+                this.isSuccess = false,
+                this.error = false
+            },
+            methods: {
+                handleFileUpload:function(){
+                    this.form.file = this.$refs.file.files[0];
+                },
+                onSubmit(evt){
+                    evt.preventDefault()
+                    
+                    let formData=new FormData()
+                    formData.append('file', this.form.file)
+                    formData.append('username', this.form.username)
+                    formData.append('specialite', this.form.specialite)
+                    formData.append('email', this.form.email)
+                    formData.append('first_name', this.form.first_name)
+                    formData.append('last_name', this.form.last_name)
+                    formData.append('password', this.form.password)
+                    formData.append('password2', this.form.password2)
+                    
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    
+                    const path = `http://127.0.0.1:8000/registerApi`
+                    
+                    axios.post(path, formData,{
+                        
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(response => { 
+                        
+                        // console.log('ok pOST')
+                        // swal("Merci!", "Votre formulaire contact a ete soumis avec succes!", "success");
+                        
+                        console.log(response.data.success) 
+                        console.log(response.data.message) 
+                        
+                        if(response.data.success == true){
+                            this.isSuccess=true
+                            this.error=false
+                            this.messageRes=response.data.message
+                            // console.log('Ok Goog')
+                            
+                            // window.location = "http://127.0.0.1:8000/connexionuser/";
+                            
+                        }
+                        else{
+                            this.error=true
+                            this.isSuccess=false
+                            this.messageRes=response.data.message
+                            console.log('Fake connec')
+                        }
+                        
+                        
+                        this.form.first_name = ''
+                        this.form.last_name = ''
+                        this.form.username = ''
+                        this.form.specialite = ''
+                        this.form.email = ''
+                        this.form.password = ''
+                        this.form.password2 = ''
+                        this.form.file = ''
+                        
+                    })
+                    .catch(error => {
+                        console.log(error.response.data)
+                    });
+                },
+                
+                onsubmitLogin(evt){
+                    evt.preventDefault()
+                    
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    
+                    const path = `http://127.0.0.1:8000/loginsApi`
+                    
+                    axios.post(path, this.form)
+                    .then(response => { 
+                        console.log(response) 
+                        this.form.username = response.data.username  
+                        this.form.password = response.data.password  
+                        
+                        // console.log('ok pOST')
+                        // swal("Merci!", "Votre formulaire contact a ete soumis avec succes!", "success");
+                        
+                        console.log(response.data.success) 
+                        console.log(response.data.message) 
+                        
+                        // console.log('Ok Goog')
+                        
+                        if(response.data.success == true){
+                            this.isSuccess=true
+                            this.error=false
+                            this.messageRes=response.data.message
+                            console.log('Ok Goog')
+                            
+                            window.location = "http://127.0.0.1:8000/";
+                            
+                        }
+                        else{
+                            this.error=true
+                            this.isSuccess=false
+                            this.messageRes=response.data.message
+                            console.log('Fake connec')
+                        }
+                        
+                        this.form.username = ''
+                        this.form.password = ''
+                        
+                    })
+                    .catch(error => {
+                        console.log(error.response.data)
+                    });
+                },
+                
+            },
+            
+        });
+    </script>
+{% endblock vue %}
