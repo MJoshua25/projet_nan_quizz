@@ -221,3 +221,8 @@ def loginsApi(request):
 def logout_view(request):
     logout(request)
     return redirect('connexionuser')
+
+
+def profile(request):
+    context = {}
+    return render(request, 'pages/comptes/profiluser.html')

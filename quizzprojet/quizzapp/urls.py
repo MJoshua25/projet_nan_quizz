@@ -31,7 +31,9 @@ urlpatterns = [
     path('registerApi', views.registerApi,),
     path('loginsApi', views.loginsApi,),
     path('deconnexion/', views.logout_view, name="deconnexion"),
+    path('profil/', views.profile, name="profile"),
 ]
+
 
 
 if settings.DEBUG:
