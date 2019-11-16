@@ -3,15 +3,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import datetime
-<<<<<<< HEAD
-=======
 from tinymce import HTMLField
 from django.core.validators import MaxValueValidator, MinValueValidator
->>>>>>> 7a686b7774b2c6c37f76b1c08fe14d5d8fc84b4a
 import pytz
 
 class Timemodels(models.Model):
-    statut = models.BooleanField(default=False)
+    statut = models.BooleanField(default=True)
     date_add =  models.DateTimeField(auto_now_add=True)
     date_update =  models.DateTimeField(auto_now=True)
       
@@ -75,11 +72,7 @@ class Quizz(Timemodels):
     specialisation = models.ForeignKey('Specialisation', related_name='quizzs', on_delete=models.CASCADE)
     titre = models.CharField(max_length=50)
     niveau = models.PositiveIntegerField()
-<<<<<<< HEAD
-    qpv = models.PositiveIntegerField()
-=======
     pourcentage = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], verbose_name="pourcentage pour valider")
->>>>>>> 7a686b7774b2c6c37f76b1c08fe14d5d8fc84b4a
     date_debut = models.DateTimeField()
     date_fin = models.DateTimeField()
     duree = models.TimeField()
@@ -105,14 +98,8 @@ class Question(Timemodels):
 
     # TODO: Define fields here
     quizz = models.ForeignKey('Quizz', related_name='questions', on_delete=models.CASCADE)
-<<<<<<< HEAD
-    titre = models.CharField(max_length=50)
-    niveau = models.PositiveIntegerField()
-    image = models.ImageField(upload_to="question", blank=True, null=True)
-=======
     niveau = models.PositiveIntegerField()
     contenu =  HTMLField('question_contenu')
->>>>>>> 7a686b7774b2c6c37f76b1c08fe14d5d8fc84b4a
 
     @property
     def liste_true(self):
@@ -135,14 +122,8 @@ class Reponse(Timemodels):
 
     # TODO: Define fields here
     question = models.ForeignKey('Question', related_name='reponses', on_delete=models.CASCADE)
-<<<<<<< HEAD
-    titre = models.CharField(max_length=50)
-    image = models.ImageField(upload_to="reponse", blank=True, null=True)
-    isrtue = models.BooleanField()
-=======
     contenu =  HTMLField('reponse_contenu')
     isrtue = models.BooleanField(default=False)
->>>>>>> 7a686b7774b2c6c37f76b1c08fe14d5d8fc84b4a
 
     class Meta:
         """Meta definition for Reponse."""
@@ -160,11 +141,7 @@ class QuizzUser(Timemodels):
     # TODO: Define fields here
     quizz = models.ForeignKey('Quizz', related_name='quizzuser', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzs")
-<<<<<<< HEAD
-    note = models.PositiveIntegerField()
-=======
     note = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
->>>>>>> 7a686b7774b2c6c37f76b1c08fe14d5d8fc84b4a
 
     class Meta:
         """Meta definition for QuizzUser."""
@@ -172,8 +149,6 @@ class QuizzUser(Timemodels):
         verbose_name = 'QuizzUser'
         verbose_name_plural = 'QuizzUsers'
 
-<<<<<<< HEAD
-=======
     def save(self, *args, **kwargs):
         nb = self.questions.all().count()
         if nb == 0:
@@ -192,7 +167,6 @@ class QuizzUser(Timemodels):
         self.note = round(n/nb, 4)*100
         super(QuizzUser, self).save(*args, **kwargs)
 
->>>>>>> 7a686b7774b2c6c37f76b1c08fe14d5d8fc84b4a
     def __str__(self):
         """Unicode representation of QuizzUser."""
         return str(self.note)
@@ -205,9 +179,6 @@ class ReponseUser(Timemodels):
     question = models.ForeignKey('Question', related_name='reponseuser', on_delete=models.CASCADE)
     quizzuser = models.ForeignKey('QuizzUser', related_name='questions', on_delete=models.CASCADE)
     reponses = models.ManyToManyField('Reponse')
-<<<<<<< HEAD
-    istrue = models.BooleanField()
-=======
     istrue = models.BooleanField(default=False)
 
     @property
@@ -215,7 +186,6 @@ class ReponseUser(Timemodels):
         aux = [i.id for i in self.reponses.all()]
         aux.sort()
         return aux
->>>>>>> 7a686b7774b2c6c37f76b1c08fe14d5d8fc84b4a
 
     class Meta:
         """Meta definition for ReponseUser."""
@@ -231,7 +201,3 @@ class ReponseUser(Timemodels):
     def __str__(self):
         """Unicode representation of ReponseUser."""
         return str(self.istrue)
-
-
-
-
