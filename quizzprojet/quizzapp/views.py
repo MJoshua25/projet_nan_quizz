@@ -67,7 +67,18 @@ def home(request):
     return render(request, 'pages/index.html',data)
 
 def quizz(request):
-    data={}
+    question = models.Question.objects.filter(statut=True)#.filter(quizz = quizz)
+    quiz = models.Quizz.objects.all()
+    # .filter(quizz = models.Quizz.objects.filter(statut=True))
+    print(question)
+    data={
+        'question': question,
+        'quiz': quiz,
+    }
+    # quiz = models.Quizz.objects.get(pk=id)
+    # data = {
+    #     "quiz": quiz
+    # }
     return render(request, 'pages/quizz.html',data)
 
 @login_required(login_url='connexionuser')
